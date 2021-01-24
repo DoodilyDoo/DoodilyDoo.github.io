@@ -1,0 +1,50 @@
+<!doctype html><html>
+	<head>
+		<style>
+			body{
+				margin:0;
+				background:#171717;
+			}
+			textarea {
+				resize:none;
+				width: calc(100% - 6px);
+				height:350px
+			}
+			body,textarea,input{color:white}
+			textarea,input{background:#333;outline:none;}
+		</style>
+	</head>
+	<body>
+		<a>Page Name:</a><input></input><br>
+		<a>Code:</a><textarea id='input'></textarea><br>
+		<a>Output: </a><textarea disabled></textarea><br><button onclick='window.open(ta[1].value,"Preview","location=0,menubar=0")' disabled id='preview'>Preview</button>		
+		<script>
+			var ta = document.getElementsByTagName('textarea');
+			var n = document.getElementsByTagName('input')[0];
+			function name(a){
+				if(n.value!=''){
+					return n.value.replace(/ /g,'_')+'/'
+				} else return '';
+			}
+			ta[0].onkeydown=function(e){
+				if(e.keyCode===9){
+					var val = this.value,
+							start = this.selectionStart,
+							end = this.selectionEnd;
+					this.value = val.substring(0,start)+'\t'+val.substring(end);
+					this.selectionStart=this.selectionEnd=start+1;
+					return false
+				}
+			}
+			function output(){
+				ta[1].value='https://DoodilyDoo.github.io/?'+name(n)+'data:text/html;base64,'+btoa(ta[0].value.replace(/\t/g,''))
+				if(ta[0].value==''){
+					ta[1].value='';
+					document.getElementById('preview').disabled=true
+				} else {document.getElementById('preview').disabled=false}
+			}
+			n.onkeyup=output;
+			ta[0].onkeyup=output;
+		</script>
+	</body>
+</html>
