@@ -16,11 +16,16 @@
 	</head>
 	<body>
 		<a>Page Name:</a><input></input><br>
-		<a>Code:</a><textarea id='input' placeholder='You can code basic HTML pages here, including css and javascript.&#10;This will convert it into a shareable link that will let people view said webpage. No hosting required.'></textarea><br>
-		<a>Output: </a><textarea disabled ></textarea><br><button onclick='window.open(ta[1].value,"Preview","location=0,menubar=0")' disabled id='preview'>Preview</button>		
+		<a>Code: <span id='incount'>(0)</span></a><br><textarea id='input' placeholder='You can code basic HTML pages here, including css and javascript.&#10;This will convert it into a shareable link that will let people view said webpage. No hosting required.&#10;Or you can paste a premade URL to decode the base64 part.'></textarea><br>
+		<a>Output: <span id='outcount'>(0)</span></a><br><textarea disabled ></textarea><br><button onclick='if(ta[1].value.includes("https://DoodilyDoo")){window.open(ta[1].value,"Preview","location=0,menubar=0")}else{alert("That is not a URL.")}' disabled id='preview'>Preview</button>		
 		<script>
-			var ta = document.getElementsByTagName('textarea');
-			var n = document.getElementsByTagName('input')[0];
+			var d=function(){return document},
+					b=function(){return document.body},
+					gEBTN=function(e){return document.getElementsByTagName(e)},
+					Id=function(e){return document.getElementById(e)},
+					ta = gEBTN('textarea'),
+					n = gEBTN('input')[0];
+					
 			function name(a){
 				if(n.value!=''){
 					return n.value.replace(/ /g,'_')+'/'
@@ -37,11 +42,17 @@
 				}
 			}
 			function output(){
-				ta[1].value='https://DoodilyDoo.github.io/?'+name(n)+'data:text/html;base64,'+btoa(ta[0].value.replace(/\t/g,''))
-				if(ta[0].value==''){
-					ta[1].value='';
-					document.getElementById('preview').disabled=true
-				} else {document.getElementById('preview').disabled=false}
+				if(ta[0].value.split(/\r*\n/).length==1&&ta[0].value.includes('DoodilyDoo.github.io/')&&ta[0].value.includes(';base64,')){
+					ta[1].value=atob(ta[0].value.split(',')[1])
+				}else{
+					ta[1].value='https://DoodilyDoo.github.io/?'+name(n)+'data:text/html;base64,'+btoa(ta[0].value.replace(/\t/g,''))
+					if(ta[0].value==''){
+						ta[1].value='';
+						Id('preview').disabled=true
+					} else {Id('preview').disabled=false}
+				}
+				Id('incount').innerText='('+ta[0].value.length+')'
+				Id('outcount').innerText='('+ta[1].value.length+')'
 			}
 			n.onkeyup=output;
 			ta[0].onkeyup=output;
