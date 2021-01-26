@@ -42,7 +42,7 @@
 				}
 			}
 			function output(){
-				if(ta[0].value.split(/\r*\n/).length==1&&ta[0].value.includes('DoodilyDoo.github.io/')&&ta[0].value.includes(';base64,')){
+				if(ta[0].value.split(/\r*\n/).length==1&&ta[0].value.split('?')[0].toLowerCase().includes('doodilydoo.github.io')&&ta[0].value.includes(';base64,')){
 					ta[1].value=atob(ta[0].value.split(',')[1])
 				}else{
 					ta[1].value='https://DoodilyDoo.github.io/?'+name(n)+'data:text/html;base64,'+btoa(ta[0].value.replace(/\t/g,''))
